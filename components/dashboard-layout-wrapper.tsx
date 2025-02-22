@@ -1,11 +1,29 @@
 "use client"
 
 import type React from "react"
-
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase-browser"
 import SignOutButton from "@/components/sign-out-button"
+import { Button } from "@/components/ui/button"
+import { Bell, Settings } from "lucide-react"
+
+export function TopBar() {
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 h-14 bg-white border-b flex items-center justify-between px-4 shadow-sm">
+      <div className="font-semibold text-lg text-indigo-600">AgroSync</div>
+      <div className="flex items-center space-x-2">
+        <Button variant="ghost" size="icon">
+          <Bell className="h-5 w-5" />
+        </Button>
+        <Button variant="ghost" size="icon">
+          <Settings className="h-5 w-5" />
+        </Button>
+        <SignOutButton />
+      </div>
+    </div>
+  )
+}
 
 export default function DashboardLayoutWrapper({
   children,
@@ -36,23 +54,12 @@ export default function DashboardLayoutWrapper({
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex">
-              <div className="flex-shrink-0 flex items-center">
-                <span className="text-2xl font-bold text-indigo-600">AgroSync</span>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <SignOutButton />
-            </div>
-          </div>
-        </div>
-      </nav>
-      {children}
+    <div className="relative top-14">
+      {/* Nueva barra superior */}
+      <TopBar />
+
+      {/* Espaciado para que el contenido no quede detrás de la barra fija */}
+      <div className="pt-16">{children}</div>
     </div>
   )
 }
-

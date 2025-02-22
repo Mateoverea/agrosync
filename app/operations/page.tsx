@@ -1,4 +1,4 @@
-import { MainNav } from "@/components/main-nav"
+
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CropManagement } from "@/components/operations/crop-management"
@@ -10,9 +10,6 @@ export default function OperationsPage() {
   return (
     <div className="flex min-h-screen flex-col bg-[#ECF0F1]">
       <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container flex h-14 items-center">
-          <MainNav />
-        </div>
       </header>
       <main className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">

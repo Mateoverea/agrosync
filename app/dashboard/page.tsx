@@ -4,10 +4,10 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase-browser"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { MainNav } from "@/components/main-nav"
 import { Overview } from "@/components/dashboard/overview"
 import { RecentActivity } from "@/components/dashboard/recent-activity"
 import { WeatherWidget } from "@/components/dashboard/weather-widget"
+import { User } from "lucide-react"
 
 export default function Dashboard() {
   const [userData, setUserData] = useState<any>(null)
@@ -97,18 +97,12 @@ export default function Dashboard() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[#ECF0F1]">
-      {/* Header con navegación */}
-      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-        <div className="container flex h-14 items-center">
-          <MainNav />
-        </div>
-      </header>
 
       {/* Contenido Principal */}
       <main className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight text-primary">
-            Welcome to {companyData.name}'s ERP
+            Welcome to {companyData.name}'s ERP, {User.name}
           </h2>
         </div>
 
