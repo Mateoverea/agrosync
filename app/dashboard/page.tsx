@@ -3,6 +3,11 @@
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase-browser"
 import { useRouter } from "next/navigation"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { MainNav } from "@/components/main-nav"
+import { Overview } from "@/components/dashboard/overview"
+import { RecentActivity } from "@/components/dashboard/recent-activity"
+import { WeatherWidget } from "@/components/dashboard/weather-widget"
 
 export default function Dashboard() {
   const [userData, setUserData] = useState<any>(null)
@@ -32,7 +37,6 @@ export default function Dashboard() {
       if (userError) {
         console.error("Error fetching user data:", userError)
 
-        // If the user doesn't exist, create a new user record
         if (userError.code === "PGRST116") {
           const { data: newUser, error: createError } = await supabase
             .from("users")
@@ -61,7 +65,6 @@ export default function Dashboard() {
       setUserData(user)
 
       if (!user || !user.company_id) {
-        // Redirect to company creation page if no company is associated
         router.push("/create-company")
         return
       }
@@ -93,15 +96,88 @@ export default function Dashboard() {
   }
 
   return (
-    <main>
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <h2 className="text-2xl font-semibold text-gray-900">Welcome to {companyData.name}'s ERP</h2>
-          <p className="mt-2 text-gray-600">Role: {userData.role || "Not set"}</p>
-          <p className="mt-2 text-gray-600">Department: {userData.department || "Not set"}</p>
+    <div className="flex min-h-screen flex-col bg-[#ECF0F1]">
+      {/* Header con navegación */}
+      <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+        <div className="container flex h-14 items-center">
+          <MainNav />
         </div>
-      </div>
-    </main>
+      </header>
+
+      {/* Contenido Principal */}
+      <main className="flex-1 space-y-4 p-8 pt-6">
+        <div className="flex items-center justify-between space-y-2">
+          <h2 className="text-3xl font-bold tracking-tight text-primary">
+            Welcome to {companyData.name}'s ERP
+          </h2>
+        </div>
+
+        {/* Tarjetas de Resumen */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <Card className="bg-primary text-primary-foreground">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Crops</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">12</div>
+            </CardContent>
+          </Card>
+          <Card className="bg-secondary text-secondary-foreground">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Active Tasks</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">8</div>
+            </CardContent>
+          </Card>
+          <Card className="bg-accent text-accent-foreground">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Monthly Sales</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">$12,234</div>
+            </CardContent>
+          </Card>
+          <Card className="bg-support text-text">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">3</div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Sección de Resumen y Actividad */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+          <Card className="col-span-4">
+            <CardHeader>
+              <CardTitle className="text-primary">Overview</CardTitle>
+            </CardHeader>
+            <CardContent className="pl-2">
+              <Overview />
+            </CardContent>
+          </Card>
+          <Card className="col-span-3">
+            <CardHeader>
+              <CardTitle className="text-primary">Recent Activity</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <RecentActivity />
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Widget del Clima */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-primary">Weather Forecast</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <WeatherWidget />
+          </CardContent>
+        </Card>
+      </main>
+    </div>
   )
 }
-
